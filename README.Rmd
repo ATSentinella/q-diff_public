@@ -1,0 +1,80 @@
+---
+title: "q-diff Notebook"
+output:
+  github_document: default
+---
+
+This is the overview of the "q-diff" project
+
+We aim to compare the q-profile with commonly used measures e.g. FST (q = 2) using:
+  - A simplified one allele system
+  - (maybe) A simulated multiple allele system
+  - (maybe) Empirical data from Fahey et. al. 2019
+
+***
+
+Packages used:
+
+- drake: project management and saves time for reanalysis
+- tidyverse: for data manipulation
+- dartR: for reading dart data and working with SNP data
+
+
+[Run all analyses](make.R)
+
+We use the package 'drake' to make a "plan" of all analyses
+
+It detects changes in files and scripts and only reruns what will be different (i.e. it will skip analyses that won't change).
+
+- make(plan) runs all analyses
+- readd(target) to extract the data included in any target
+
+[q diversity functions](R/q_diversity_functions.R)
+
+- get.Hq.alpha(p, q)
+  - For alpha entropy (H), take allele proportion of (p), and value of q
+  - p can either be a single value, or a vector of values
+- H.to.D.alpha(p, q)
+  - Converts entropy (H) to diversity (D)
+- get.Dq.alpha(p, q)
+  - Calculates alpha diversity (D)
+  - simply H.to.D.alpha(get.Hq.alpha(p, q), q)
+- get.Hq.beta.per.locus()
+- get.Hq.beta.per.pop()
+- get.Dq.beta.per.locus()
+- get.Dq.beta.per.pop()
+
+One allele simulations
+
+- get.one.allele.data(step.k, n.samples)
+  - Enter
+    - strength of step (k) from 0 to 1 (0.5 at d = 0.5)
+      - 0: linear
+      - 1: gentle curve
+      - 10: steep curve
+      - 100: solid step
+    - number of samples (n)
+      - Number of sample showing th same pattern
+      - For calculating standard error
+  - Return
+    - Table of simulated allele frequencies
+      - step strength (k)
+      - number of sample (n)
+      - distance (d) from 0 to 1, increments of 0.01
+      - alelle proportion (p) from 0 to 1
+        - calculated by:  qbeta(d, 1/(1 + k), 1/(1 + k)
+        - qbeta function makes a beta distribution
+        - NOT related to q-profile or beta diversity
+      - standard error for p (se.p)
+      - upper esitmate of p (p.u), p + se.p (maximum value 1)
+      - lower estimate of p (p,l), p - se.p (minimum value 0)
+    - Plot of allele frequencies (p) over distance (d) with standard errors (p.u, p.l)
+
+-
+
+[Load empirical data and clean](R/load_Fahey_data.R)
+
+Empirical data from Fahey et. al. 2019
+
+
+

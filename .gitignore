@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.future/
+.drake/
+.Documents/
+Sentinella*
+slurm*
